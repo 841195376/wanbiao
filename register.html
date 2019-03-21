@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<link rel="stylesheet" type="text/css" href="css/register.css">
+<body>
+	<div class="header">
+		<a href="https://www.wbiao.cn/"><img src="img/logo-icon.png" alt=""></a>
+	</div>
+	<div class="big_box">
+		<h1>注册万表网</h1>
+		<div class="big">
+			<div class="box">
+				<p>
+					<i class="icon"></i>
+					<input type="text" placeholder="请输入手机号码" id="yz1">
+					<span></span>
+				</p>
+			</div>
+			<div class="box">
+				<p>
+					<i class="icon1"></i>
+					<input type="text" placeholder="图片验证码" class="in1" id="input">
+					<span id="zheng"></span>
+				</p>
+			</div>
+			<div class="box">
+				<p>
+					<i class="icon2"></i>
+					<input type="text" placeholder="请输入短信验证码" class="in1" id="yz2">
+					<button>获取验证码</button>
+					<span></span>
+					
+					
+				</p>
+			</div>
+			<div class="box">
+				<p>
+					<i class="icon3"></i>
+					<input type="text" placeholder="请输入密码" id="yz3">
+					<span></span>
+				</p>
+			</div>
+			<div class="box">
+				<p>
+					<i class="icon4"></i>
+					<input type="text" placeholder="请再次输入密码">
+					<span></span>
+				</p>
+			</div>
+			<div class="box">
+				<p>
+					<input type="text" placeholder="如有推荐人请填写推荐人手机号码" id="yz4">
+					<span></span>
+				</p>
+			</div>
+			<div class="box">
+				<a id="zhuce">立即注册</a>
+			</div>
+			<p class="xie">点击“立即同意”表示您同意并遵守<a href="https://www.wbiao.cn/help-25.html">万表网协议</a></p>
+		</div>	
+
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="js/jQuery-1.8.3.min.js"></script>
+<script type="text/javascript">
+
+
+	
+	$("#yz1").blur(function(){
+	var r = /^1[1-9]\d{9}$/;		
+			if(r.test(this.value)){
+				$(this).next().html("");
+			}else{
+				$(this).next().html("请输入正确的手机号码");
+		}
+	});
+	$("#yz2").blur(function(){
+	var r = /^1[1-9]\d{9}$/;		
+			if(r.test(this.value)){
+				$(this).next().html("");
+			}else{
+				$(this).next().html("请输入六位数验证码");
+		}
+	});
+	$("#yz3").blur(function(){
+	var r = /^1[1-9]\d{9}$/;		
+			if(r.test(this.value)){
+				$(this).next().html("");
+			}else{
+				$(this).next().html("请输入6-16位密码");
+		}
+	});
+	$("#yz4").blur(function(){
+	var r = /^1[1-9]\d{9}$/;		
+			if(r.test(this.value)){
+				$(this).next().html("");
+			}else{
+				$(this).next().html("请输入正确的手机号码");
+		}
+	});
+
+
+
+window.onload=function(){
+    //生成验证码
+    createCode();
+    let check=document.getElementById("zheng");
+    check.onclick=function() {
+        createCode();
+    };
+    validate()
+}
+//获取验证码
+function createCode(){
+    let check=document.getElementById("zheng");
+    var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G',
+        'H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y',
+        'Z');//随机数
+
+    code = "";
+    var codeLength = 4;//验证码的长度
+
+    for(let i=0;i<codeLength;i++){
+        var index=Math.floor(Math.random()*36);
+        code=code+random[index];
+    }
+
+    check.innerText=code;
+}
+ function validate(){
+        var oValue = document.getElementById('input').value.toUpperCase();      
+        document.getElementById("input").focus(function(){
+        	if(oValue ==""){
+            alert('请输入验证码');
+        }else (oValue != code)
+        	{
+            alert('验证码不正确，请重新输入');
+            oValue = ' ';
+            createCode();
+        }
+        })
+}
+
+
+$("#zhuce").click(function(){
+	$.ajax({
+		type:"post",
+		url:"php/regSave.php",
+		sysnc:true,
+		data:{phone:$("#yz1").val(),
+		passworld:$("#yz3").val()},
+
+		success:(date)=>{
+			if(date==1){
+				location.href="login.html"
+			}else{
+				alert("注册失败")
+			}
+		}
+	})
+})
+</script>

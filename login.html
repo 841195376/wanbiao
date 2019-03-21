@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+<body>
+	<div class="header">
+		<a href="https://www.wbiao.cn/"><img src="img/logo-icon.png" alt=""></a>
+	</div>
+	<div class="nav">
+		<div class="denglu">
+		<div class="denglu_top">
+			<a id="hui">会员登录</a>
+			<em>|</em>
+			<a id="sao">扫码登录</a>
+		</div>
+		<div class="den">
+			<div class="search">
+				<div class="wiwi">
+					<input type="text" placeholder="&nbsp;&nbsp;请输入手机号" id="phone"><span></span>
+				</div>
+				
+				<input type="text" placeholder="&nbsp;&nbsp;请输入验证码"><p id="zheng"></p>
+				<input type="text" placeholder="&nbsp;&nbsp;请输入验证码"><p class="yan"><a href="">获取验证码</a></p>
+				<div class="d">
+					<input type="submit" value="登录" class="dl">
+					<a href="register.html" target="_blank">免费注册</a>
+				</div>
+				<div class="di">
+					<a id="jq">账号密码</a>
+					|
+					<a href="">社交登录</a>
+				</div>					
+		</div>
+		<div class="sear">
+			<div class="wiwi">
+				<input type="text" placeholder="&nbsp;&nbsp;请输入手机号" id="phone"><span></span>
+			</div>
+			
+			<input type="text" placeholder="&nbsp;&nbsp;请输密码" id="passworld">
+			<div class="d">
+				<input type="submit" value="登录" class="dl" id="dll">
+				<div id="messageBox" style="color: red;display: none;" ></div>
+				<a href="register.html" target="_blank">免费注册</a>
+				<a href="#">忘记密码</a>
+			</div>
+			<div class="di">
+				<a id="jw">手机动态登录</a>
+				|
+				<a href="">社交登录</a>
+			</div>	
+		</div>
+		<div class="wei">
+			<div class="imgs">
+				<img src="img/weiixn.jpg" alt="扫码登录">				
+			</div>
+			<p>使用<a href="">万表APP</a>扫码登录<br/>在首页顶部搜索栏点击扫一扫</p>
+			<span>万表APP</span>
+		</div>
+	</div>
+   
+</div>
+	 	 
+
+    </div>
+    <div class="fb">
+    	 <div class="fbb">
+			<p>万表网名表商城&nbsp;版权所有 2018-2-19 <a href="#">ICP证书 备案号：粤ICP备101010101</a>网监备案40000019191</p>
+			<p>广州市万表科技股份有限公司 地址:广州市番禺区番禺大道北60-1号</p>
+			<p>Copyright 2008-2017 WWW.WBIAO.CN.LTD ALL RIGHT RESERVED.</p>
+    </div>
+    </div>
+  
+		
+</body>
+</html>
+<script type="text/javascript" src="js/jQuery-1.8.3.min.js"></script>
+<script type="text/javascript">
+
+
+	
+	$("#phoneId").blur(function(){
+	var r = /^1[1-9]\d{9}$/;		
+			if(r.test(this.value)){
+				$(this).next().html("");
+			}else{
+				$(this).next().html("请输入正确的手机号码");
+		}
+	});
+	$("#phone").blur(function(){
+	var r = /^1[1-9]\d{9}$/;		
+			if(r.test(this.value)){
+				$(this).next().html("");
+			}else{
+				$(this).next().html("请输入正确的手机号码");
+		}
+	});
+
+	$("#jq").click(function(){
+		$(".search").css({"display":"none"})
+		$(".sear").css({"display":"block"})
+	})
+	$("#jw").click(function(){
+		$(".search").css({"display":"block"})
+		$(".sear").css({"display":"none"})
+	})
+
+	$("#sao").click(function(){
+		$(".search").css({"display":"none",})
+		$(".wei").css({"display":"block",})
+		$("#hui").css({"color":"gray"})
+		$("#sao").css({"color":"orange"})
+	})
+	$("#hui").click(function(){
+		$(".search").css({"display":"block"})
+		$(".wei").css({"display":"none"})
+		$("#sao").css({"color":"gray"})
+		$("#hui").css({"color":"orange"})
+	})
+
+
+window.onload=function(){
+    //生成验证码
+    createCode();
+    let check=document.getElementById("zheng");
+    check.onclick=function() {
+        createCode();
+    }
+
+    // let change=document.getElementById("change");
+    // change.onclick=function(){
+    //     createCode();
+    // }
+}
+//获取验证码
+function createCode(){
+    let check=document.getElementById("zheng");
+    var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G',
+        'H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y',
+        'Z');//随机数
+
+    code = "";
+    var codeLength = 4;//验证码的长度
+
+    for(let i=0;i<codeLength;i++){
+        var index=Math.floor(Math.random()*36);
+        code=code+random[index];
+    }
+
+    check.innerText=code;
+}
+$(function(){
+	$("#dll").click(function(){
+		//1、
+		let xhr = new XMLHttpRequest();
+		//2、
+		xhr.open("post","php/loginCheck.php",true);
+		//3、
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState==4 && xhr.status==200){
+				if(xhr.responseText=="1"){
+					//存cookie
+					// addCookie("userid",$("#userId").value,30);
+					location.href="index.html";
+					alert("登录成")
+				}else{
+					$("#messageBox").html("登录失败，账号或者密码错误！");
+					// $("#messageBox").style.display="block";
+				}
+			}
+		}
+
+		// 4、
+		xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		let str=`phone=${$("#phone").value}&passworld=${$("#passworld").value}`;
+		xhr.send(str);
+	})
+
+})
+
+
+</script>
